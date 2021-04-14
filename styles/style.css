@@ -78,8 +78,8 @@ button:active {
   /* position: relative;
   top: -2rem;
   left: -2rem; */
-  width: 4rem;
-  height: 4rem;
+  width: 6rem;
+  height: 6rem;
   background-color: rgba(23, 108, 156, 0.767);
   border-radius: 50%;
   transform-origin: 0;
