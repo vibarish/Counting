@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <img src="./img/avrora_logo.png" alt="">
+  <h2 style="text-align:center">Расчет зарплаты</h2>
+  <div class="control-btns">
+    <button id="k-btn">Узнать коэфиициент</button>
+    <button id="salary-btn">Узнать запралату при коэффициенте</button>
+  </div>
+  <div class="app">
+    <div class="input-panel">
+      <label for="getSum">Введите полученную сумму</label>
+      <input type="number" name="getSum" id="sum">
+
+      <label for="okladIn">Введите размер оклада</label>
+      <div class="input-panel__radio">
+        <input type="radio" id="first-old" name="oklad" value="45.3">
+        <label for="first-old">Старый 1 кат.</label><br>
+        <input type="radio" id="first" name="oklad" value="52.8">
+        <label for="first">Новый 1 кат.</label><br>
+        <input type="radio" id="second" name="oklad" value="46.2">
+        <label for="second">Новый 2 кат.</label>
+      </div>
+
+      <label for="getAvans">Введите ранее полученный аванс</label>
+      <input type="number" name="getAvans" id="avans">
+      <button id="getAvansHandler">Введите данные</button>
+    </div>
+    <div class="display-panel">
+      <label for="display-panel__zp">Полученная зарплата составляет, рублей</label>
+      <p id="display-panel__zp"></p>
+      <label for="display-panel__k">Рассчитанный коэффициент</label>
+      <p id="display-panel__k"></p>
+    </div>
+  </div>
+  <div class="app-salary">
+    <form id="nadbavka">
+      <label for="getk">Введите коэффициент</label>
+      <input type="text" name="getk" id="getk">
+    </form>
+    <label for="zp">Рассчитанная зарплата</label>
+    <p id="zp"></p>
+  </div>
+  <script>
+    const app = document.querySelector('.app');
+    const salaryApp = document.querySelector('.app-salary');
+
+    const salary = document.querySelector('#sum');
+    const avans = document.querySelector('#avans');
+    const zp = document.querySelector('#display-panel__zp');
+    const k = document.querySelector('#display-panel__k');
+    const get15 = document.querySelector('#getValueHandler');
+    const getAvansBtn = document.querySelector('#getAvansHandler');
+    const okladIn = document.getElementsByName('oklad');
+    const nadbavka = document.querySelector('#nadbavka');
+    const getK = document.querySelector('#getk');
+    const zpOutput = document.querySelector('#zp');
+
+    const kBtn = document.getElementById('k-btn');
+    const salaryBtn = document.getElementById('salary-btn');
+
+    
+    let total = 0;
+    let mySalary = 0;
+    let myAvans = 0;
+    let result = 0;
+    let oklad = 0;
+
+    let myK = 0;
+
+    nadbavka.addEventListener('submit', (event) => {
+      event.preventDefault();
+      myK = (getK.value * 52.8 + 52.8 +5.8) * 0.87;
+      zpOutput.innerHTML = myK;
+    });
+    
+    kBtn.addEventListener('click', () => {
+      salaryApp.classList.remove('app-salary-visible');
+      app.classList.add('app-visible');
+    });
+
+    salaryBtn.addEventListener('click', () => {
+      app.classList.remove('app-visible');
+      salaryApp.classList.add('app-salary-visible');
+    });
+
+    getAvansBtn.addEventListener('click', () => {
+      okladIn.forEach(element => {
+        if (element.checked) {
+          oklad = element.value;
+        }
+      });
+      // console.log('Значение поля оклад', okladIn.value);
+      // let oklad = okladIn.value;
+      mySalary = salary.value;
+      myAvans = avans.value;
+      total = parseInt(myAvans) + parseInt(mySalary);
+      if (mySalary > 0 && myAvans > 0) {
+        let dirtyTotal = total / 0.87 ;
+        let premium = (dirtyTotal - oklad - (oklad * 0.1)) / oklad;
+        zp.innerHTML = total;
+        k.innerHTML = premium;
+      } else alert('Введите корректные данные!');
+      oklad = 0;
+    });
+
+  </script>
+  <style>
+    .app {
+      display: none;
+      flex-direction: row;
+    }
+    .app-visible {
+      display: flex;
+    }
+    .app-salary {
+      display: none;
+    }
+    .app-salary-visible {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .input-panel {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      justify-self: center;
+      justify-content: space-around;
+      align-content: center;
+      align-items: center;
+      font-size: 18px;
+    }
+    input, button {
+      width: 30%;
+      padding: 0.6rem;
+      margin: 0.4rem;
+      border-radius: 5%;
+    }
+    button {
+      color: white;
+      background-color: rgb(38, 101, 143);
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: blue;
+    }
+    .display-panel {
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+    }
+    #display-panel__zp, #display-panel__k, #zp {
+      height: 1rem;
+      border: solid;
+      padding: 1rem;
+      color: blue;
+      max-width: 10rem;
+    }
+    .input-panel__radio {
+      display: flex;
+      flex-direction: row;
+      margin: 1rem;
+    }
+    img {
+      height: 7rem;
+    }
+    .control-btns {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: center;
+    }
+  </style>
+</body>
+</html>
