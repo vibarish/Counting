@@ -130,4 +130,10 @@ img {
   width: 7rem;
   height: 7rem;
 }
+.input-panel__radio {
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 }
