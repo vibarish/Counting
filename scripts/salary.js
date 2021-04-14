@@ -23,6 +23,7 @@ const app = document.querySelector('.app');
     let result = 0;
     let oklad = 0;
     let expenses = 0;
+    let okladFlag = false;
 
     let myK = 0;
 
@@ -49,20 +50,34 @@ const app = document.querySelector('.app');
       okladIn.forEach(element => {
         if (element.checked) {
           oklad = element.value;
-        }
+          okladFlag = true;
+        } 
       });
-      // console.log('Значение поля оклад', okladIn.value);
-      // let oklad = okladIn.value;
+  
       mySalary = salary.value;
       myAvans = avans.value;
       if (food.value > 0)
         total = parseInt(myAvans) + parseInt(mySalary) + parseInt(expenses);
       else total = parseInt(myAvans) + parseInt(mySalary);
-      if (mySalary > 100 && myAvans > 100 && mySalary < 1000000 && myAvans < 1000000) {
+      if (mySalary > 100 && myAvans > 100 && mySalary < 1000000 && myAvans < 1000000 && okladFlag) {
         let dirtyTotal = total / 0.87 ;
         let premium = (dirtyTotal - oklad - (oklad * 0.1)) / oklad;
         zp.innerHTML = total;
         k.innerHTML = premium.toFixed(2);
-      } else alert('Введите корректные данные!');
+      } else {
+        if (!okladFlag) {
+          alert('Не выбран размер оклада!')
+          return;
+        };
+        if (mySalary > 1000000 || myAvans > 1000000) {
+          alert('Зарплата не может быть такой большой!');
+          return;
+        }
+        if (mySalary < 100 || myAvans < 100) {
+          alert('Неверные значения зарплаты или(и) оклада');
+          return;
+        } 
+      }
+      //  alert('Введите корректные данные!');
       oklad = 0;
     });
